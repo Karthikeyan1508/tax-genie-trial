@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <title>TaxGenie</title>
+    <link rel="stylesheet" href="chat.css" />
+  </head>
+  <body>
+    <div class="container">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <button class="toggle-btn" id="toggle-btn">☰</button>
+        </div>
+        <button class="new-chat" id="new-chat">
+          <i class="fas fa-plus"></i><span class="tag">New chat</span>
+        </button>
+        <nav>
+          <p class="recent-heading">Recent Chats</p>
+          <ul class="recent-chats" id="recent-chats">
+            <!-- Recent chats will be loaded dynamically -->
+          </ul>
+          <button class="more-chat">Show more</button>
+        </nav>
+        <div class="sidebar-footer">
+          <a href="https://github.com/Karthikeyan1508/tax-genie/blob/main/README.md" target="_blank">
+            <button>
+              <span class="tag">Documentation</span>
+            </button>
+          </a>
+            
+          <a href="/" target="_blank">
+          <button>
+            </i> <span class="tag">Home</span>
+          </button>
+        </a>
+          <a href="/feedback" target="_blank">
+            <button>
+              <span class="tag">Feedback</span>
+            </button>
+          </a>
+          
+          <!-- <div class="location">
+            <p>Karnataka Layout, KHBS Layout, Bengaluru, Karnataka, India</p>
+          </div> -->
+        </div>
+      </aside>
+      <main class="chat-window">
+        <header class="chat-header">
+          <button class="toggle-btn" id="toggle-btn">☰</button>
+          <h2>TaxGenie</h2>
+          <!-- <button id="logout-btn">Logout</button> -->
+        </header>
+        <div class="chat-box" id="chat-box">
+          <!-- Chat messages will appear here -->
+        </div>
+        <footer class="message-input">
+          <!-- <button class="upload-button"> -->
+            <!-- <i class="fas fa-paperclip"></i> -->
+          <!-- </button> -->
+          <label for="pdf-input" id="pdf-upload-label">
+            <i class="fas fa-file-pdf"></i>
+          </label>
+          <input type="file" id="pdf-input" accept=".pdf" />
+          <input
+            type="text"
+            id="message-input"
+            placeholder="Type your message here..."
+          />
+          <!-- <button class="mic-button">
+            <i class="fas fa-microphone"></i>
+          </button> -->
+          <!-- <script>
+            const micBtn = document.getElementById("micBtn");
+            const inputText = document.getElementById("inputText");
+
+            const recognition = new (window.SpeechRecognition ||
+              window.webkitSpeechRecognition)();
+            recognition.lang = "en-US";
+            recognition.interimResults = false;
+
+            micBtn.addEventListener("click", () => {
+              recognition.start();
+            });
+
+            recognition.addEventListener("result", (event) => {
+              const transcript = event.results[0][0].transcript;
+              inputText.value = transcript;
+            });
+
+            recognition.addEventListener("end", () => {
+              recognition.stop();
+            });
+          </script> -->
+          <button class="send-button" id="send-button">
+            <i class="fas fa-paper-plane"></i>
+            <span>Send</span>
+          </button>
+        </footer>
+      </main>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

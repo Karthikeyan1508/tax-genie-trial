@@ -1,0 +1,556 @@
+  <!DOCTYPE html>
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaxGenie</title>
+
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+  </head>
+
+  <body id="top">
+    <header class="header" data-header>
+      <div class="container-header">
+        <a href="#top" id="tax-logo" style="font-size: large;">TaxGenie</a>
+        <nav class="navbar" data-navbar>
+          <ul class="navbar-list">
+            <li><a href="#top" class="navbar-link label-lg link:hover">Home</a></li>
+            <li><a href="#features-section" class="navbar-link label-lg link:hover">Features</a></li>
+            <li><a href="#footer-section" class="navbar-link label-lg link:hover">Contact</a></li>
+            <li><a href="#" id="login-button" class="navbar-link label-lg link:hover">Login</a></li>
+            <li>
+              <button id="toggle-mode" onclick="toggle()">
+                <ion-icon id="toggle-icon" name="moon"></ion-icon>
+              </button>
+            </li>
+          </ul>
+        </nav>
+        <!-- Profile Picture Placeholder -->
+        <button class="btn-icon profil-btn" aria-label="User Profile">
+          <img id="profile-pic" src="https://cdn.vectorstock.com/i/preview-1x/08/19/gray-photo-placeholder-icon-design-ui-design-icon-vector-35850819.jpg" width="50" height="50" alt="Profile Picture" class="img-cover" />
+        </button>
+        <div class="header-action">
+          <button class="nav-toggle-btn" aria-label="menu toggle" data-nav-toggler>
+            <ion-icon name="menu-outline" aria-hidden="true" class="default-icon"></ion-icon>
+            <ion-icon name="close-outline" aria-hidden="true" class="active-icon"></ion-icon>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- "Get Started" Button (only accessible when logged in) -->
+    <main>
+      <article>
+
+        <!-- 
+          - #HERO
+        -->
+
+        <section class="section hero" aria-label="home">
+          <div class="container">
+
+            <h1 class="headline-lg hero-title">
+              Unlock the power of financial clarity with <span class="span">TaxGenie!</span>
+            </h1>
+
+            <p class="section-text body-lg">
+              Get expert insights, updates, and personalized tax-saving strategies all in one place.
+            </p>
+
+            <a href="/chat" class="btn" id="get-started-button">Get Started!</a>
+
+
+          </div>
+        </section>
+
+
+    <!-- Firebase Configuration and Google Auth -->
+    <script type="module">
+      import {
+        initializeApp
+      } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+      import {
+        getAuth,
+        GoogleAuthProvider,
+        signInWithPopup,
+        signOut,
+        onAuthStateChanged
+      } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAioidH1IyJJPtQpLrbAzllvZ-BQbgJ0xQ",
+        authDomain: "tax-genie-f1840.firebaseapp.com",
+        projectId: "tax-genie-f1840",
+        storageBucket: "tax-genie-f1840.appspot.com",
+        messagingSenderId: "370816786830",
+        appId: "1:370816786830:web:c17d7ccdf713f6406f84df",
+        measurementId: "G-J6YZ72F1FC"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
+
+      const authButton = document.getElementById('login-button');
+      const getStartedButton = document.getElementById('get-started-button');
+
+      const userSignIn = async () => {
+        try {
+          const result = await signInWithPopup(auth, provider);
+          console.log("User signed in:", result.user);
+        } catch (error) {
+          console.error("Error signing in:", error);
+        }
+      };
+
+      const userSignOut = async () => {
+        try {
+          await signOut(auth);
+          console.log("User signed out");
+        } catch (error) {
+          console.error("Error signing out:", error);
+        }
+      };
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          console.log("User signed in:", user);
+          console.log("Photo URL:", user.photoURL);
+          authButton.textContent = 'Logout';
+
+          // Fetch and display the user's profile picture
+          if (user.photoURL) {
+            document.getElementById('profile-pic').src = user.photoURL;
+          } else {
+            document.getElementById('profile-pic').src = "https://cdn.vectorstock.com/i/preview-1x/08/19/gray-photo-placeholder-icon-design-ui-design-icon-vector-35850819.jpg";
+          }
+
+        } else {
+          console.log("User signed out");
+          authButton.textContent = 'Login';
+          document.getElementById('profile-pic').src = "https://cdn.vectorstock.com/i/preview-1x/08/19/gray-photo-placeholder-icon-design-ui-design-icon-vector-35850819.jpg";
+        }
+      });
+
+      authButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (auth.currentUser) {
+          userSignOut();
+        } else {
+          userSignIn();
+        }
+      });
+
+      // Restrict access to the "Get Started" button unless user is logged in
+      getStartedButton.addEventListener('click', () => {
+        if (auth.currentUser) {
+          // User is logged in, allow access
+          console.log("Access granted to 'Get Started'");
+        } else {
+          // User is not logged in, show an alert
+          alert("Please log in to access this feature.");
+        }
+      });
+    </script>
+
+
+
+
+    
+
+
+
+        <!-- 
+          - #TOP COLLECTION
+        -->
+
+        <section class="section top-collection" aria-labelledby="collection-label">
+          <h2 class="headline-md section-title text-center" id="discover-label">Latest Updates</h2>
+
+          <!--<div class="card">
+            <img src="https://via.placeholder.com/300" alt="Card Image" class="card-img">
+            <div class="card-content">
+                <h3 class="card-title">Card Title</h3>
+                <p class="card-description">
+                    This is a simple card description. Cards are a great way to display content in an organized way.
+                </p>
+                <button><a href="#" class="card-btn">Read More</a></button>
+            </div>
+          </div>-->
+
+          <div class="swiper-container">
+            <div class="swiper-wrapper" style="display: flex;">
+
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+          </div>
+
+          </div>
+          </div>
+
+        </section>
+        <!-- 
+          - Features
+        -->
+
+        <section class="section sellers" aria-labelledby="sellers-label" id="features-section">
+          <div class="container">
+
+            <h2 class="headline-md section-title text-center" id="sellers-label">Features</h2>
+
+            <ul class="grid-list">
+
+              <li>
+                <div class="seller-card card">
+
+                  <figure class="card-banner">
+                    <img src="./images/upload.png" width="64" height="64" loading="lazy" alt="PDF">
+
+                  </figure>
+
+                  <div class="card-title-wrapper">
+                    <h3 class="title-sm">
+                      <a href="#" class="link:hover">PDF Upload and Analysis</a>
+                    </h3>
+
+                  </div>
+              </li>
+
+              <li>
+                <div class="seller-card card">
+
+                  <figure class="card-banner">
+                    <img src="./images/document.png" width="64" height="64" loading="lazy" alt="Tax">
+
+                  </figure>
+
+                  <div class="card-title-wrapper">
+                    <h3 class="title-sm">
+                      <a href="#" class="link:hover">Tax Regulation</a>
+                    </h3>
+
+                  </div>
+              </li>
+
+              <li>
+                <div class="seller-card card">
+
+                  <figure class="card-banner">
+                    <img src="./images/contract.png" width="64" height="64" loading="lazy" alt="Doc summary">
+
+                  </figure>
+
+                  <div class="card-title-wrapper">
+                    <h3 class="title-sm">
+                      <a href="#" class="link:hover">Document Summarisation</a>
+                    </h3>
+
+
+                  </div>
+              </li>
+
+              <li>
+                <div class="seller-card card">
+
+                  <figure class="card-banner">
+                    <img src="./images/exchange.png" width="64" height="64" loading="lazy" alt="Profit and Loss">
+
+                  </figure>
+
+                  <div class="card-title-wrapper">
+                    <h3 class="title-sm">
+                      <a href="#" class="link:hover">Profit and Loss Breakdown</a>
+                    </h3>
+
+                  </div>
+              </li>
+
+              <li>
+                <div class="seller-card card">
+
+                  <figure class="card-banner">
+                    <img src="./images/arrows.png" width="64" height="64" loading="lazy" alt="Tax-Optimisation">
+
+                  </figure>
+
+                  <div class="card-title-wrapper">
+                    <h3 class="title-sm">
+                      <a href="#" class="link:hover">Tax Optimisation</a>
+                    </h3>
+
+                  </div>
+              </li>
+
+              <li>
+                <div class="seller-card card">
+
+                  <figure class="card-banner">
+                    <img src="./images/ai-technology.png" width="64" height="64" loading="lazy" alt="Gen-ai">
+
+                  </figure>
+
+                  <div class="card-title-wrapper">
+                    <h3 class="title-sm">
+                      <a href="#" class="link:hover">Generative Scenario Analysis</a>
+                    </h3>
+
+                  </div>
+              </li>
+
+            </ul>
+
+          </div>
+        </section>
+
+
+
+
+
+        <!-- 
+          - #QNA
+        -->
+
+        <section class="section qna" aria-label="question and answer">
+          <div class="container">
+
+            <h2 class="headline-md section-title text-center">Q&A</h2>
+            <ul class="qna-list">
+
+              <li class="qna-item">
+                <div class="qna-card" data-accordion>
+
+                  <button class="qna-btn" data-accordion-btn>
+                    <h3 class="title-sm" id="qna-qna">What is TaxGenie?</h3>
+
+                    <ion-icon name="chevron-down" aria-hidden="true"></ion-icon>
+                  </button>
+
+                  <div class="qna-content">
+                    <p class="body-md">
+                      It's an AI genarated chatbot used to manage, track, and optimize your taxes
+                      effortlessly.
+                    </p>
+                  </div>
+
+                </div>
+              </li>
+
+              <li class="qna-item">
+                <div class="qna-card" data-accordion>
+
+                  <button class="qna-btn" data-accordion-btn>
+                    <h3 class="title-sm">How do I upload my finance-bill?</h3>
+
+                    <ion-icon name="chevron-down" aria-hidden="true"></ion-icon>
+                  </button>
+
+                  <div class="qna-content">
+                    <p class="body-md">
+                      You can upload your finance bill PDF directly on the chatbot interface, which
+                      will extract relevant information for tax planning.
+                    </p>
+                  </div>
+
+                </div>
+              </li>
+
+              <li class="qna-item">
+                <div class="qna-card" data-accordion>
+
+                  <button class="qna-btn" data-accordion-btn>
+                    <h3 class="title-sm">Who can use this chatbot?</h3>
+
+                    <ion-icon name="chevron-down" aria-hidden="true"></ion-icon>
+                  </button>
+
+                  <div class="qna-content">
+                    <p class="body-md">
+                      The chatbot is designed for taxpayers, tax advisors, and businesses looking for
+                      guidance on tax planning.
+                    </p>
+                  </div>
+
+                </div>
+              </li>
+
+              <li class="qna-item">
+                <div class="qna-card" data-accordion>
+
+                  <button class="qna-btn" data-accordion-btn>
+                    <h3 class="title-sm">How can TaxGenie help me with my tax queries?</h3>
+
+                    <ion-icon name="chevron-down" aria-hidden="true"></ion-icon>
+                  </button>
+
+                  <div class="qna-content">
+                    <p class="body-md">
+                      By asking you specific questions about your income, deductions, and financial
+                      situation, TaxGenie can give tailored advice to help optimize your tax returns,
+                      including tips on saving taxes through available exemptions and deductions.
+                    </p>
+                  </div>
+
+                </div>
+              </li>
+
+            </ul>
+
+          </div>
+        </section>
+
+        <!-- 
+          - #NEWSLETTER
+        -->
+
+
+      </article>
+    </main>
+
+
+
+
+
+    <!-- 
+      - #FOOTER
+    -->
+
+    <footer class="footer" id="footer-section">
+
+      <div class="section footer-top">
+        <div class="container">
+
+          <div class="footer-brand">
+            <p class="body-md footer-text">
+              Manage, track, and optimize your taxes effortlessly with TAXGENIE.
+            </p>
+
+          </div>
+
+          <ul class="footer-list">
+
+            <li>
+              <p class="title-lg footer-list-title">TaxGenie</p>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">
+                <ion-icon name="chevron-forward"></ion-icon>
+
+                <span class="span">Home</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">
+                <ion-icon name="chevron-forward"></ion-icon>
+
+                <span class="span">Explore</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">
+                <ion-icon name="chevron-forward"></ion-icon>
+
+                <span class="span">Get Started!</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">
+                <ion-icon name="chevron-forward"></ion-icon>
+                <span class="span">Login</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">
+                <ion-icon name="chevron-forward"></ion-icon>
+
+                <span class="span">Contact us</span>
+              </a>
+            </li>
+
+          </ul>
+
+
+          <div class="footer-list">
+
+            <ul>
+
+              <li>
+                <p class="title-lg footer-list-title">TAXGENIE - "Genie-us solutions always!</p>
+              </li>
+
+            </ul>
+
+            <ul>
+
+              <li>
+                <p class="title-lg footer-list-title">Contact Details</p>
+              </li>
+
+              
+
+              <li class="footer-list-item">
+                <ion-icon name="call-outline" aria-hidden="true"></ion-icon>
+
+                <a href="tel:+111 234-567-891" class="footer-link">+111 234-567-891</a>
+              </li>
+
+            </ul>
+
+          </div>
+
+        </div>
+      </div>
+      </div>
+
+    </footer>
+
+
+
+
+
+    <!-- 
+      - #BACK TO TOP
+    -->
+
+    <a href="#top" class="back-to-top btn-icon" aria-label="back to top" data-back-top-btn>
+      <ion-icon name="arrow-up" aria-hidden="true"></ion-icon>
+    </a>
+
+
+
+
+
+    <div class="body-bg-shape"></div>
+
+
+
+
+
+    <!-- 
+      - custom js link
+    -->
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js" defer></script>
+
+    <!-- 
+      - ionicon link
+    -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  </body>
+
+  </html>
