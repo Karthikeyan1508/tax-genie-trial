@@ -36,7 +36,7 @@ By choosing TaxGenie, you’re not just filing taxes—you’re empowering yours
 
 ### Chatbot
 
-![Screenshot 1](./public/images/chatbot.jpeg)
+![image](https://github.com/user-attachments/assets/6bccc65b-868d-4986-b3ad-55ce90a58a12)
 
 ## Steps to Run TaxGenie
 
